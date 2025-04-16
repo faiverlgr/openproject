@@ -26,6 +26,18 @@ services:
     volumes:
       - openproject_data:/var/openproject
 
+  nginx:
+    image: nginx:alpine
+    container_name: openproject-nginx
+    restart: always
+    ports:
+      - "8443:443"
+    volumes:
+      - ./nginx/certs:/etc/nginx/certs
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - openproject
+
 volumes:
   openproject_data:
   postgres_data:
