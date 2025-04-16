@@ -17,7 +17,7 @@ services:
       - "8080:80"
     environment:
       - OPENPROJECT_SECRET_KEY_BASE=secret
-      - OPENPROJECT_HOST__NAME=http://144.91.64.235    # tudominio.com
+      - OPENPROJECT_HOST__NAME=144.91.64.235    # tudominio.com
       - OPENPROJECT_HTTPS=false
       - OPENPROJECT_DEFAULT__LANGUAGE=es
       - DATABASE_URL=postgres://openproject:openproject@db/openproject
