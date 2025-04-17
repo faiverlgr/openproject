@@ -21,10 +21,17 @@ services:
       - OPENPROJECT_HTTPS=false
       - OPENPROJECT_DEFAULT__LANGUAGE=es
       - DATABASE_URL=postgres://openproject:openproject@db/openproject
+      - VIRTUAL_HOST=mantenimientodesoftware.com
+      - LETSENCRYPT_HOST=mantenimientodesoftware.com
+      - LETSENCRYPT_EMAIL=faiverlgr@gmail.com
     depends_on:
       - db
     volumes:
       - openproject_data:/var/openproject
+    expose:
+      - "80"
+    networks:
+      - default
 
   nginx:
     image: nginx:alpine
@@ -38,6 +45,29 @@ services:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - openproject
+
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    container_name: nginx-proxy
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /etc/nginx/vhost.d
+      - /usr/share/nginx/html
+      - /etc/nginx/certs
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+
+  letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    container_name: nginx-letsencrypt
+    restart: always
+    volumes:
+      - /etc/nginx/certs
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - NGINX_PROXY_CONTAINER=nginx-proxy
 
 volumes:
   openproject_data:
