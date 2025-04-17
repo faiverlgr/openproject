@@ -16,7 +16,7 @@ services:
     environment:
       - OPENPROJECT_SECRET_KEY_BASE=secret
       - OPENPROJECT_HOST__NAME=mantenimientodesoftware.com    # tudominio.com
-      - OPENPROJECT_HTTPS=true
+      - OPENPROJECT_HTTPS=false
       - OPENPROJECT_DEFAULT__LANGUAGE=es
       - DATABASE_URL=postgres://openproject:openproject@db/openproject
       - VIRTUAL_HOST=mantenimientodesoftware.com
@@ -29,7 +29,16 @@ services:
     expose:
       - "8080"
     networks:
-      - proxy-tier
+      - web
+
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./nginx/certbot/conf:/etc/letsencrypt
+      - ./nginx/certbot/www:/var/www/certbot
+    entrypoint: ""
+    command: >
+      sh -c "echo 'Certbot listo. Ejecuta manualmente el comando para generar el certificado.'"
 
   nginx-proxy:
     image: jwilder/nginx-proxy
@@ -44,7 +53,7 @@ services:
       - /etc/nginx/certs
       - /var/run/docker.sock:/tmp/docker.sock:ro
     networks:
-      - proxy-tier
+      - web
 
   letsencrypt:
     image: jrcs/letsencrypt-nginx-proxy-companion
@@ -56,12 +65,12 @@ services:
     environment:
       - NGINX_PROXY_CONTAINER=nginx-proxy
     networks:
-      - proxy-tier
+      - web
 
 volumes:
   openproject_data:
   postgres_data:
 
 networks:
-  proxy-tier:
+  web:
     driver: bridge
