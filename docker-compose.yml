@@ -27,7 +27,7 @@ services:
     volumes:
       - openproject_data:/var/openproject
     expose:
-      - "80"
+      - "8080"
     networks:
       - proxy-tier
 
