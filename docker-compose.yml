@@ -35,6 +35,7 @@ services:
     image: certbot/certbot
     container_name: certbot
     volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
       - ./nginx/certbot/conf:/etc/letsencrypt
       - ./nginx/certbot/www:/var/www/certbot
 
