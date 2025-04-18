@@ -28,6 +28,7 @@ services:
       - db
     volumes:
       - openproject_data:/var/openproject
+      - /usr/share/nginx/html:/usr/share/nginx/html
     expose:
       - "8080"
     networks:
