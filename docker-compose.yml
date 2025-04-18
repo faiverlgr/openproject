@@ -33,12 +33,10 @@ services:
 
   certbot:
     image: certbot/certbot
+    container_name: certbot
     volumes:
       - ./nginx/certbot/conf:/etc/letsencrypt
       - ./nginx/certbot/www:/var/www/certbot
-    entrypoint: ""
-    command: >
-      sh -c "echo 'Certbot listo. Ejecuta manualmente el comando para generar el certificado.'"
 
   nginx-proxy:
     image: jwilder/nginx-proxy
