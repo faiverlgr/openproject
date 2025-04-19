@@ -29,7 +29,7 @@ services:
       - db
     volumes:
       - openproject_data:/var/openproject
-      - /usr/share/nginx/html:/usr/share/nginx/html
+      - ./nginx/html:/usr/share/nginx/html
     expose:
       - "8080"
     networks:
@@ -44,7 +44,7 @@ services:
       - "443:443"
     volumes:
       - /etc/nginx/vhost.d
-      - /usr/share/nginx/html
+      - ./nginx/html:/usr/share/nginx/html
       - /etc/nginx/certs
       - /var/run/docker.sock:/tmp/docker.sock:ro
     networks:
@@ -58,7 +58,7 @@ services:
       - NGINX_PROXY_CONTAINER=nginx-proxy
     volumes:
       - /etc/nginx/certs
-      - /usr/share/nginx/html
+      - ./nginx/html:/usr/share/nginx/html
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
       - web
