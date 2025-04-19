@@ -30,7 +30,6 @@ services:
       - db
     volumes:
       - openproject_data:/var/openproject
-      - ./nginx/html:/usr/share/nginx/html
     expose:
       - "8080"
     networks:
@@ -70,4 +69,4 @@ volumes:
 
 networks:
   web:
-    driver: bridge
+    external: true
