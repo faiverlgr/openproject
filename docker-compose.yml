@@ -31,7 +31,7 @@ services:
       - openproject_data:/var/openproject
       - ./nginx/html:/usr/share/nginx/html
     expose:
-      - "8080"
+      - "80"
     networks:
       - web
 
