@@ -17,10 +17,10 @@ services:
     restart: unless-stopped
     environment:
       - OPENPROJECT_SECRET_KEY_BASE=secret
-      - OPENPROJECT_HOST__NAME=mantenimientodesoftware.com    # tudominio.com
+      - OPENPROJECT_HOST__NAME=mantenimientodesoftware.com
       - OPENPROJECT_HTTPS=true
       - OPENPROJECT_DEFAULT__LANGUAGE=es
-      - DATABASE_URL=postgres://openproject:openproject@db/openproject
+      - DATABASE_URL=postgres://openproject:openproject@openproject-db/openproject
       - VIRTUAL_HOST=mantenimientodesoftware.com
       - LETSENCRYPT_HOST=mantenimientodesoftware.com
       - LETSENCRYPT_EMAIL=faiverlgr@gmail.com
@@ -33,14 +33,6 @@ services:
       - "8080"
     networks:
       - web
-
-  certbot:
-    image: certbot/certbot
-    container_name: certbot
-    volumes:
-      - ./nginx/conf.d:/etc/nginx/conf.d
-      - ./nginx/certbot/conf:/etc/letsencrypt
-      - ./nginx/certbot/www:/var/www/certbot
 
   nginx-proxy:
     image: jwilder/nginx-proxy
@@ -61,12 +53,12 @@ services:
     image: jrcs/letsencrypt-nginx-proxy-companion
     container_name: nginx-letsencrypt
     restart: always
+    environment:
+      - NGINX_PROXY_CONTAINER=nginx-proxy
     volumes:
       - /etc/nginx/certs
       - /usr/share/nginx/html
       - /var/run/docker.sock:/var/run/docker.sock:ro
-    environment:
-      - NGINX_PROXY_CONTAINER=nginx-proxy
     networks:
       - web
 
