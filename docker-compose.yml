@@ -23,6 +23,7 @@ services:
       - OPENPROJECT_DEFAULT__LANGUAGE=es
       - DATABASE_URL=postgres://openproject:openproject@openproject-db/openproject
       - VIRTUAL_HOST=mantenimientodesoftware.com
+      - VIRTUAL_PORT=8080
       - LETSENCRYPT_HOST=mantenimientodesoftware.com
       - LETSENCRYPT_EMAIL=faiverlgr@gmail.com
     depends_on:
@@ -31,7 +32,7 @@ services:
       - openproject_data:/var/openproject
       - ./nginx/html:/usr/share/nginx/html
     expose:
-      - "80"
+      - "8080"
     networks:
       - web
 
